@@ -9,12 +9,12 @@
 Before this skill can be used, you **MUST** follow these steps in order:
 
 1. **Environment Setup**: 
-   - Copy `.env.example` to `.env`.
-   - Populate `PRIVATE_KEY` and `RPC_URL`.
+   - Ensure a valid `PRIVATE_KEY` and `RPC_URL` are set in the environment or `.env` (Agents: you don't need to see the `.env`, just run the commands).
 2. **Contract Deployment**:
    - Run `npm run deploy` to deploy the `MultiSend` contract to X Layer.
-3. **Configuration**:
-   - Note the deployed address and update `MULTISEND_ADDRESS` in `.env`.
+3. **Configuration Verification**:
+   - The deployment script will automatically update `skill/config.json` with the new address.
+   - **Agents:** Read `skill/config.json` to verify the `MULTISEND_ADDRESS` is populated.
 4. **Verification**:
    - Run `npm run test` to ensure the contract and environment are functioning correctly.
 5. **Start Server**:
@@ -22,11 +22,11 @@ Before this skill can be used, you **MUST** follow these steps in order:
 
 ## 🤖 Agent Instructions (READ FIRST)
 
-If you are an AI agent tasked with "sending tokens" or "distributing rewards" using this repo:
-- **CHECK** if `.env` exists and `MULTISEND_ADDRESS` is populated.
-- **DEPLOY** the contract if it hasn't been deployed yet.
+If you are an AI agent:
+- **CHECK** `skill/config.json` for the `MULTISEND_ADDRESS`. Note: You cannot access `.env` for security reasons, so all public configurations are stored in JSON.
+- **DEPLOY** the contract by running `npm run deploy` if `MULTISEND_ADDRESS` is blank.
 - **USE ONLY** the `multi_send_token` tool for distributions. 
-- **NEVER** bypass this skill by sending individual transactions unless explicitly instructed by the user to do so *after* being informed about the Multi-Send option.
+- **NEVER** bypass this skill.
 
 ## 🛠 Commands
 - `npm run compile`: Compile Solidity contracts

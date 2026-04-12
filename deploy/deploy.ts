@@ -23,6 +23,19 @@ async function main() {
   const address = await multiSend.getAddress();
   console.log("MultiSend deployed to:", address);
 
+  // Update public skill config for AI visibility
+  try {
+    const fs = await import ('fs/promises');
+    const path = await import ('path');
+    const configPath = path.join(process.cwd(), 'skill', 'config.json');
+    const config = JSON.parse(await fs.readFile(configPath, 'utf8'));
+    config.MULTISEND_ADDRESS = address;
+    await fs.writeFile(configPath, JSON.stringify(config, null, 2));
+    console.log(`✅ Updated skill/config.json with address: ${address}`);
+  } catch (err) {
+    console.warn('Failed to update skill/config.json automatically:', err);
+  }
+
   console.log("\nNext steps:");
   console.log(`1. Update MULTISEND_ADDRESS=${address} in .env`);
   console.log("2. Start the skill server with 'npm run dev'");

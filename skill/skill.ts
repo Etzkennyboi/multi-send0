@@ -3,8 +3,9 @@ import { ethers } from 'ethers';
 import { ValidationError } from '../errors.js';
 import { validateInput, type MultiSendInput } from './validate.js';
 import MULTISEND_ABI from '../abi/MultiSend.json' with { type: 'json' };
+import skillConfig from './config.json' with { type: 'json' };
 
-const MULTISEND_ADDRESS = process.env.MULTISEND_ADDRESS;
+const MULTISEND_ADDRESS = process.env.MULTISEND_ADDRESS || skillConfig.MULTISEND_ADDRESS;
 
 const RPC_URL      = process.env.RPC_URL      ?? 'https://rpc.xlayer.tech';
 const EXPECTED_CHAIN = 196n;
