@@ -11,7 +11,15 @@ metadata:
 
 Batch transfer ERC20 tokens to multiple recipients in a single atomic transaction on X Layer. High efficiency for payouts and distributions.
 
-## Instruction Priority
+## 🛑 CRITICAL: REQUIRED INITIALIZATION
+
+<MUST>
+- **DO NOT USE THIS SKILL** if `MULTISEND_ADDRESS` is not configured in the environment.
+- If the contract is not deployed, you **MUST** run `npm run deploy` first and update the `.env` file.
+- **NEVER** bypass this skill by sending N individual transactions. The core objective of this repository is to use the `MultiSend` contract for efficiency.
+</MUST>
+
+## ## Instruction Priority
 
 This document uses tagged blocks to indicate rule severity. In case of conflict, higher priority wins:
 

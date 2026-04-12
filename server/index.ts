@@ -63,7 +63,15 @@ app.post('/skill/multi_send', async (req: Request, res: Response) => {
 app.get('/health', async (_req, res) => {
   try {
     const blockNumber = await provider.getBlockNumber();
-    res.json({ status: 'ok', chain: 196, version: '1.1.0', blockNumber });
+    const isConfigured = !!process.env.MULTISEND_ADDRESS;
+    res.json({ 
+      status: isConfigured ? 'ok' : 'warn', 
+      ready: isConfigured,
+      chain: 196, 
+      version: '1.1.0', 
+      blockNumber,
+      message: isConfigured ? 'Ready to send' : 'Contract not configured. Please deploy and update .env'
+    });
   } catch (err: any) {
     res.status(503).json({ status: 'error', detail: err.message });
   }
