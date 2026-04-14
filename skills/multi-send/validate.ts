@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { ValidationError } from '../errors.js';
+import { ValidationError } from './errors.js';
 
 // BUG #09 FIX: configurable max amount
 const MAX_AMOUNT = process.env.MAX_AMOUNT_WEI
