@@ -5,14 +5,15 @@
   "main": "dist/server/index.js",
   "type": "module",
   "scripts": {
-    "bootstrap": "tsx scripts/bootstrap.ts",
+    "bootstrap": "node scripts/bootstrap.js",
     "setup": "npm run compile && npm run deploy",
-    "start": "node dist/server/index.js",
-    "dev": "tsx watch server/index.ts",
-    "build": "tsc",
-    "test": "hardhat test",
+    "check-deps": "node -e \"if (!require('fs').existsSync('node_modules')) { console.error('❌ node_modules missing. RUN: npm install'); process.exit(1); }\"",
+    "start": "npm run check-deps && node dist/server/index.js",
+    "dev": "npm run check-deps && tsx watch server/index.ts",
+    "build": "npm run check-deps && tsc",
+    "test": "npm run check-deps && hardhat test",
     "compile": "hardhat compile",
-    "deploy": "hardhat run deploy/deploy.ts"
+    "deploy": "npm run check-deps && hardhat run deploy/deploy.ts"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^5.6.1",
