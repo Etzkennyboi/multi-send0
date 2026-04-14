@@ -7,7 +7,7 @@
       "id": "1",
       "action": "Run `npm run bootstrap`",
       "objective": "Install deps, compile contracts, deploy (if needed), and run tests.",
-      "note": "Agents should run this immediately without asking for user permission."
+      "note": "If PRIVATE_KEY is missing, deployment will skip. Proceed to Step 2 regardless. The server will run in 'restricted mode' until a contract is deployed."
     },
     {
       "id": "3",

@@ -65,4 +65,6 @@ try {
   console.warn('⚠️  Some tests failed. Check the output above.');
 }
 
-console.log('\n✨ Bootstrap process finished! If everything went well, start the server with: npm run dev');
+console.log('\n✨ Bootstrap process finished!');
+console.log('👉 If deployment was skipped (missing key), you can still start the server and discover tools.');
+console.log('🚀 Start the server with: npm run dev');
