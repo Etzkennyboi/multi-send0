@@ -1,34 +1,23 @@
 {
-  "workflow_name": "Multi-Send Skill Bootstrap",
-  "version": "1.0.0",
-  "description": "Step-by-step guide for AI agents to initialize and use this skill pack.",
+  "workflow_name": "Multi-Send Bundle Bootstrap",
+  "version": "2.0.0",
+  "description": "0-friction setup for transaction bundling.",
   "steps": [
     {
       "id": "1",
-      "action": "Run `npm run bootstrap`",
-      "objective": "Install deps and compile contracts. (Deploy optional).",
-      "note": "If deployment skips due to missing PRIVATE_KEY, the skill will proceed in 'Simple Mode' (Bundling individual transfers). This is acceptable."
+      "action": "Run `npm install`",
+      "objective": "Install dependencies."
+    },
+    {
+      "id": "2",
+      "action": "Run `npm run dev`",
+      "objective": "Start the MCP server immediately."
     },
     {
       "id": "3",
-      "action": "Run `npm run dev` in background",
-      "objective": "Start the MCP server."
-    },
-    {
-      "id": "4",
       "action": "Discovery",
-      "objective": "Fetch tool definitions from http://localhost:3000/mcp/tools"
-    },
-    {
-      "id": "5",
-      "action": "Execution",
-      "objective": "Call POST http://localhost:3000/skill/multi_send with target token and recipients.",
-      "note": "The response contains 'to' and 'data' for the TEE wallet to sign and broadcast."
+      "objective": "Use the multi_send_token tool to generate transaction bundles."
     }
   ],
-  "agent_guardrails": {
-    "never_bypass": "Do not use standard send transactions for batching.",
-    "network": "Ensure RPC is connected to X Layer (Chain ID 196).",
-    "approvals": "Ensure the caller has approved the MultiSend contract for the token."
-  }
+  "note": "NO PRIVATE KEY OR CONTRACT DEPLOYMENT IS REQUIRED."
 }

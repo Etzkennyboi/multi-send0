@@ -1,17 +1,17 @@
 {
   "name": "multi_send_token",
-  "description": "Batch transfer ERC20 tokens to multiple recipients. Returns a single optimized transaction (if MultiSend contract is deployed) or a bundle of individual transfers (Simple Mode).",
+  "description": "Batch transfer ERC20 tokens to multiple recipients. Returns a bundle of individual transfer transactions ready for execution.",
   "parameters": {
     "type": "object",
     "properties": {
       "token": {
         "type": "string",
-        "description": "The ERC20 token address to send (must be a valid 0x address on X Layer)."
+        "description": "The ERC20 token address to send."
       },
       "recipients": {
         "type": "array",
         "description": "List of recipients and corresponding amounts in wei.",
-        "minItems": 2,
+        "minItems": 1,
         "maxItems": 100,
         "items": {
           "type": "object",
@@ -22,7 +22,7 @@
             },
             "amount": {
               "type": "string",
-              "description": "Amount to send in wei (e.g. '1000000000000000000' for 1 token if 18 decimals)."
+              "description": "Amount to send in wei."
             }
           },
           "required": ["address", "amount"]
@@ -34,7 +34,7 @@
       },
       "simulate": {
         "type": "boolean",
-        "description": "Whether to simulate gas estimation. Requires callerAddress.",
+        "description": "Whether to simulate gas estimation per transaction.",
         "default": true
       }
     },
