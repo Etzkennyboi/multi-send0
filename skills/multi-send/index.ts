@@ -5,9 +5,9 @@ import express, { Request, Response } from 'express';
 import helmet from 'helmet';
 import cors   from 'cors';
 import rateLimit from 'express-rate-limit';
-import { buildMultiSendTx } from '../skill/skill.js';
-import { ValidationError }  from '../errors.js';
-import manifest from '../skill/manifest.json' with { type: 'json' };
+import { buildMultiSendTx } from './skill.js';
+import { ValidationError }  from './errors.js';
+import manifest from './manifest.json' with { type: 'json' };
 import { ethers } from 'ethers';
 
 const app  = express();
@@ -91,5 +91,5 @@ process.on('uncaughtException', (err) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Multi-Send Skill Server v1.1.0 on :${PORT}`);
+  console.log(`Multi-Send Skill Server v2.1.0 on :${PORT}`);
 });

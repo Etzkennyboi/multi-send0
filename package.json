@@ -1,14 +1,31 @@
 {
   "name": "multi-send-skill",
-  "version": "2.0.0",
-  "description": "Agent-Native Transaction Bundler for ERC20 Transfers",
-  "main": "dist/server/index.js",
+  "version": "2.1.0",
+  "description": "Agent-native multi-send skill for X Layer — batch transfers and transaction bundling.",
   "type": "module",
+  "keywords": [
+    "multi-send",
+    "batch-transfer",
+    "x-layer",
+    "web3",
+    "defi",
+    "onchain",
+    "agent-native",
+    "skills"
+  ],
+  "author": {
+    "name": "Etzkennyboi"
+  },
+  "files": [
+    "skills/",
+    "AGENTS.md",
+    "CLAUDE.md",
+    ".claude-plugin/",
+    ".cursor-plugin/"
+  ],
   "scripts": {
-    "start": "node dist/server/index.js",
-    "dev": "tsx watch server/index.ts",
-    "build": "tsc",
-    "test": "tsx test/bundle.test.ts"
+    "start": "tsx skills/multi-send/index.ts",
+    "dev": "tsx watch skills/multi-send/index.ts"
   },
   "dependencies": {
     "cors": "^2.8.5",
