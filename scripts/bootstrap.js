@@ -16,31 +16,53 @@ function run(cmd) {
 
 // 1. Install dependencies
 if (!fs.existsSync('node_modules')) {
+  console.log('📦 Installing dependencies (this may take a minute)...');
   run('npm install');
 }
 
-// 2. Compile contracts
+// 2. Initialize .env if missing
+if (!fs.existsSync('.env') && fs.existsSync('.env.example')) {
+  console.log('📝 Creating .env from .env.example...');
+  fs.copyFileSync('.env.example', '.env');
+}
+
+// 3. Compile contracts
+console.log('\n🏗️  Compiling contracts...');
 run('npm run compile');
 
-// 3. Deployment check
+// 4. Deployment check
 const configPath = path.join(process.cwd(), 'skill', 'config.json');
-const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+let config = { MULTISEND_ADDRESS: "" };
+try {
+  config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
+} catch (e) {
+  console.warn('⚠️ Could not read skill/config.json');
+}
 
 if (!config.MULTISEND_ADDRESS) {
-  console.log('\n📝 MULTISEND_ADDRESS not found in config. Attempting deployment...');
+  console.log('\n📝 MULTISEND_ADDRESS not found in config.');
   
   // Check for .env or environment variables
   if (!process.env.PRIVATE_KEY && !fs.existsSync('.env')) {
-    console.error('❌ ERROR: Missing PRIVATE_KEY. Please provide it in .env before deployment.');
-    process.exit(1);
+    console.warn('⚠️  WARNING: Missing PRIVATE_KEY. Skipping deployment.');
+    console.log('👉 To deploy, update the PRIVATE_KEY in your .env file and run: npm run deploy');
+  } else {
+    try {
+      run('npm run deploy');
+    } catch (err) {
+      console.warn('⚠️  Deployment failed. You may need to fund your account or check your RPC.');
+    }
   }
-  
-  run('npm run deploy');
 } else {
   console.log(`\n✅ Contract already deployed at: ${config.MULTISEND_ADDRESS}`);
 }
 
-// 4. Test
-run('npm run test');
+// 5. Test
+console.log('\n🧪 Running tests...');
+try {
+  run('npm run test');
+} catch (err) {
+  console.warn('⚠️  Some tests failed. Check the output above.');
+}
 
-console.log('\n✨ Setup Complete! You can now start the server with: npm run dev');
+console.log('\n✨ Bootstrap process finished! If everything went well, start the server with: npm run dev');
