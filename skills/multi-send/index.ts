@@ -3,14 +3,14 @@ import 'dotenv/config';
 
 import express, { Request, Response } from 'express';
 import helmet from 'helmet';
-import cors   from 'cors';
+import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import { buildMultiSendTx } from './skill.js';
-import { ValidationError }  from './errors.js';
+import { ValidationError } from './errors.js';
 import manifest from './manifest.json' with { type: 'json' };
 import { ethers } from 'ethers';
 
-const app  = express();
+const app = express();
 const PORT = process.env.PORT ?? 3000;
 
 // RPC Provider for health check
@@ -25,10 +25,10 @@ if (corsOrigin === '*' && process.env.NODE_ENV === 'production') {
 
 app.use(helmet());
 app.use(cors({ origin: corsOrigin, methods: ['GET', 'POST'] }));
-app.use(rateLimit({ 
-  windowMs: 15 * 60 * 1000, 
+app.use(rateLimit({
+  windowMs: 15 * 60 * 1000,
   max: 100,
-  message: { success: false, error: 'Too many requests' } 
+  message: { success: false, error: 'Too many requests' }
 }));
 
 // BUG #22 FIX: enforce size limit
@@ -64,11 +64,11 @@ app.get('/health', async (_req, res) => {
   try {
     const blockNumber = await provider.getBlockNumber();
     const isConfigured = !!process.env.MULTISEND_ADDRESS;
-    res.json({ 
-      status: isConfigured ? 'ok' : 'warn', 
+    res.json({
+      status: isConfigured ? 'ok' : 'warn',
       ready: isConfigured,
-      chain: 196, 
-      version: '1.1.0', 
+      chain: 196,
+      version: '1.1.0',
       blockNumber,
       message: isConfigured ? 'Ready to send' : 'Contract not configured. Please deploy and update .env'
     });
@@ -77,9 +77,9 @@ app.get('/health', async (_req, res) => {
   }
 });
 
-process.on('SIGTERM', () => { 
-  console.log('Shutting down...'); 
-  process.exit(0); 
+process.on('SIGTERM', () => {
+  console.log('Shutting down...');
+  process.exit(0);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
@@ -91,5 +91,5 @@ process.on('uncaughtException', (err) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Multi-Send Skill Server v2.1.0 on :${PORT}`);
+  console.log(`Multi-Send Skill Server v1.1.0 on :${PORT}`);
 });

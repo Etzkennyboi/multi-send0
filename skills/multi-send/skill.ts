@@ -1,10 +1,9 @@
-// skill/skill.ts v2.0.0
+// skills/multi-send/skill.ts v3.0.0
 import { ethers } from 'ethers';
 import { validateInput, type MultiSendInput } from './validate.js';
 
 const RPC_URL = process.env.RPC_URL ?? 'https://rpc.xlayer.tech';
 const EXPECTED_CHAIN = 196n;
-
 const provider = new ethers.JsonRpcProvider(RPC_URL, undefined, {
   staticNetwork: await ethers.Network.from(Number(EXPECTED_CHAIN)),
 });
@@ -17,45 +16,62 @@ export interface TxPayload {
 }
 
 export interface MultiSendResponse {
-  mode: 'bundle';
-  transactions: TxPayload[];
+  mode: 'contract';
+  transaction: TxPayload;
 }
 
-const ERC20_ABI = [
-  "function transfer(address to, uint256 amount) returns (bool)"
+const MULTISEND_ABI = [
+  "function multiSendToken(address token, address[] recipients, uint256[] amounts)"
 ];
 
-const erc20Iface = new ethers.Interface(ERC20_ABI);
+const multiSendIface = new ethers.Interface(MULTISEND_ABI);
 
+/**
+ * Builds a single transaction to execute a multi-send via a smart contract.
+ * Mode: contract (One Transaction)
+ */
 export async function buildMultiSendTx(raw: MultiSendInput): Promise<MultiSendResponse> {
   const input = validateInput(raw);
+  const MULTISEND_ADDRESS = process.env.MULTISEND_ADDRESS;
 
-  console.log(`[SKILL] Generating bundle for ${input.recipients.length} transfers.`);
-  
-  const transactions: TxPayload[] = input.recipients.map(r => ({
-    to: input.token,
-    data: erc20Iface.encodeFunctionData('transfer', [r.address, BigInt(r.amount)]),
+  if (!MULTISEND_ADDRESS) {
+    throw new Error('MULTISEND_ADDRESS is required for contract mode. Please configure it in your environment.');
+  }
+
+  console.log(`[SKILL] Generating contract call for ${input.recipients.length} recipients.`);
+
+  const recipients = input.recipients.map(r => r.address);
+  const amounts = input.recipients.map(r => BigInt(r.amount));
+
+  const data = multiSendIface.encodeFunctionData('multiSendToken', [
+    input.token,
+    recipients,
+    amounts
+  ]);
+
+  const transaction: TxPayload = {
+    to: MULTISEND_ADDRESS,
+    data,
     value: '0',
-  }));
+  };
 
-  // Optional: Add gas estimation for each tx in the bundle if requested
+  // Perform gas estimation if requested
   if (input.simulate && input.callerAddress) {
-    for (const tx of transactions) {
-      try {
-        const gas = await provider.estimateGas({
-          to: tx.to,
-          data: tx.data,
-          from: input.callerAddress,
-        });
-        tx.gasEstimate = gas.toString();
-      } catch (err: any) {
-        console.error(`[gas estimation] failed for recipient:`, err.message);
-      }
+    try {
+      const gas = await provider.estimateGas({
+        to: transaction.to,
+        data: transaction.data,
+        from: input.callerAddress,
+      });
+      transaction.gasEstimate = gas.toString();
+    } catch (err: any) {
+      console.error(`[gas estimation] failed for contract call:`, err.message);
+      // We still return the tx even if simulation fails, but without gasEstimate
     }
   }
 
   return {
-    mode: 'bundle',
-    transactions,
+    mode: 'contract',
+    transaction,
   };
 }

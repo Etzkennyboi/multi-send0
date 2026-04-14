@@ -33,7 +33,7 @@ export function validateInput(raw: MultiSendInput): MultiSendInput {
   for (let i = 0; i < raw.recipients.length; i++) {
     const r = raw.recipients[i];
     if (!ethers.isAddress(r.address)) throw new ValidationError(`Recipient ${i}: invalid address`);
-    if (r.address === ethers.ZeroAddress)  throw new ValidationError(`Recipient ${i}: zero address`);
+    if (r.address === ethers.ZeroAddress) throw new ValidationError(`Recipient ${i}: zero address`);
     const norm = r.address.toLowerCase();
     if (seen.has(norm)) throw new ValidationError(`Recipient ${i}: duplicate address`);
     seen.add(norm);
