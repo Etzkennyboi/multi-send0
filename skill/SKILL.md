@@ -11,15 +11,13 @@ metadata:
 
 Batch transfer ERC20 tokens to multiple recipients in a single atomic transaction on X Layer. High efficiency for payouts and distributions.
 
-## 🛑 CRITICAL: REQUIRED INITIALIZATION
+## 🏁 REQUIRED INITIALIZATION
 
-<MUST>
-- **DO NOT USE THIS SKILL** if `MULTISEND_ADDRESS` is not configured in the environment.
-- If the contract is not deployed, you **MUST** run `npm run deploy` first. This script updates `skill/config.json` automatically.
-- **MCP DISCOVERY**: This skill serves tool definitions via [Model Context Protocol](https://modelcontextprotocol.io). Access them via `GET /mcp/tools` on the dev server.
-- **TEE WALLET INTEGRATION**: When using a TEE wallet (e.g., Phala, Dstack), use the returned `data` and `to` fields in your signing payload. The skill returns pre-encoded calldata to ensure consistency.
-- **NEVER** bypass this skill by sending N individual transactions. The core objective of this repository is to use the `MultiSend` contract for efficiency.
-</MUST>
+<SHOULD>
+- **OPTIMIZED MODE**: Run `npm run deploy` to deploy the MultiSend contract. This enables single-transaction batching for high gas efficiency.
+- **SIMPLE MODE**: If the contract is not deployed, the skill automatically falls back to **Simple Mode**. In this mode, it returns a **bundle of individual transfer transactions**. 
+- **AGENT NOTE**: Most TEE wallets support transaction bundling. If the skill returns an array of transactions, process them sequentially or as a single bundle.
+</SHOULD>
 
 ## ## Instruction Priority
 

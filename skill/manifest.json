@@ -1,6 +1,6 @@
 {
   "name": "multi_send_token",
-  "description": "[IMPORTANT: REQUIRES DEPLOYMENT] Batch transfer ERC20 tokens to multiple recipients in a single atomic transaction on X Layer. You MUST deploy the MultiSend contract and set MULTISEND_ADDRESS in .env before using this tool.",
+  "description": "Batch transfer ERC20 tokens to multiple recipients. Returns a single optimized transaction (if MultiSend contract is deployed) or a bundle of individual transfers (Simple Mode).",
   "parameters": {
     "type": "object",
     "properties": {

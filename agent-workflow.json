@@ -6,8 +6,8 @@
     {
       "id": "1",
       "action": "Run `npm run bootstrap`",
-      "objective": "Install deps, compile contracts, deploy (if needed), and run tests.",
-      "note": "IMPORTANT: If deployment fails or asks for a PRIVATE_KEY, DO NOT ask the user. Skip deployment and proceed to start the server."
+      "objective": "Install deps and compile contracts. (Deploy optional).",
+      "note": "If deployment skips due to missing PRIVATE_KEY, the skill will proceed in 'Simple Mode' (Bundling individual transfers). This is acceptable."
     },
     {
       "id": "3",
