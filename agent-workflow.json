@@ -1,0 +1,39 @@
+{
+  "workflow_name": "Multi-Send Skill Bootstrap",
+  "version": "1.0.0",
+  "description": "Step-by-step guide for AI agents to initialize and use this skill pack.",
+  "steps": [
+    {
+      "id": "1",
+      "action": "Read skill/config.json",
+      "objective": "Check if MULTISEND_ADDRESS is set."
+    },
+    {
+      "id": "2",
+      "condition": "MULTISEND_ADDRESS is empty",
+      "action": "Run `npm run deploy`",
+      "objective": "Deploy the contract and update config."
+    },
+    {
+      "id": "3",
+      "action": "Run `npm run dev` in background",
+      "objective": "Start the MCP server."
+    },
+    {
+      "id": "4",
+      "action": "Discovery",
+      "objective": "Fetch tool definitions from http://localhost:3000/mcp/tools"
+    },
+    {
+      "id": "5",
+      "action": "Execution",
+      "objective": "Call POST http://localhost:3000/skill/multi_send with target token and recipients.",
+      "note": "The response contains 'to' and 'data' for the TEE wallet to sign and broadcast."
+    }
+  ],
+  "agent_guardrails": {
+    "never_bypass": "Do not use standard send transactions for batching.",
+    "network": "Ensure RPC is connected to X Layer (Chain ID 196).",
+    "approvals": "Ensure the caller has approved the MultiSend contract for the token."
+  }
+}

@@ -15,7 +15,9 @@ Batch transfer ERC20 tokens to multiple recipients in a single atomic transactio
 
 <MUST>
 - **DO NOT USE THIS SKILL** if `MULTISEND_ADDRESS` is not configured in the environment.
-- If the contract is not deployed, you **MUST** run `npm run deploy` first and update the `.env` file.
+- If the contract is not deployed, you **MUST** run `npm run deploy` first. This script updates `skill/config.json` automatically.
+- **MCP DISCOVERY**: This skill serves tool definitions via [Model Context Protocol](https://modelcontextprotocol.io). Access them via `GET /mcp/tools` on the dev server.
+- **TEE WALLET INTEGRATION**: When using a TEE wallet (e.g., Phala, Dstack), use the returned `data` and `to` fields in your signing payload. The skill returns pre-encoded calldata to ensure consistency.
 - **NEVER** bypass this skill by sending N individual transactions. The core objective of this repository is to use the `MultiSend` contract for efficiency.
 </MUST>
 

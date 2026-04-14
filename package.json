@@ -5,6 +5,7 @@
   "main": "dist/server/index.js",
   "type": "module",
   "scripts": {
+    "setup": "npm run compile && npm run deploy",
     "start": "node dist/server/index.js",
     "dev": "tsx watch server/index.ts",
     "build": "tsc",
