@@ -6,7 +6,7 @@ This project provides agent-native skills for performing batched token transfers
 
 | Skill | Purpose | When to Use |
 |-------|---------|-------------|
-| multi-send | Batch transfer of ERC20/Native tokens | User wants to send tokens to multiple recipients in a single transaction or bundle. |
+| multi-send | Single transaction batched token transfers | User wants to send tokens to multiple recipients in one transaction via a smart contract. |
 
 ## Quick Start for Agents
 

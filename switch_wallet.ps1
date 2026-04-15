@@ -1,0 +1,4 @@
+$env:OKX_API_KEY = "28c9786b-053b-48df-959f-0d6beacc1d0a"
+$env:OKX_SECRET_KEY = "8AE96E275EE85DD891AF588E59F822AD"
+$env:OKX_PASSPHRASE = '$Skippy2000'
+onchainos wallet switch 56d70645-7dff-40cd-a9a2-b939e5884529
